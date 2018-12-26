@@ -34,6 +34,16 @@ float sustainTime = 0.4;
 float sustainLevel = 1.2;
 float releaseTime = 2.2;
 
+// note sequences
+String [] soundBank = {
+  
+  "54,55,57,59",
+  "58,60,61,64",
+  "54,61,57,66",
+  "56,59,64,49"
+  
+  
+};
 
 // ===================================================
 
@@ -44,6 +54,7 @@ ArrayList<GraphObject> gObjects = new ArrayList<GraphObject>();
 int stepDuration = 1000;
 int pruningThreshold = 3;
 int fadeRatio = 50;
+Reverb reverb;
 
 
 // ===================================================
@@ -55,6 +66,8 @@ void setup() {
    // Create triangle wave and envelope 
   triOsc = new TriOsc(this);
   env  = new Env(this);
+
+  
 }
 
 void draw() {
@@ -77,6 +90,7 @@ void draw() {
             if(g.Stage < 3){
               triOsc.play(midiToFreq(g.notes.array()[g.Stage]), 0.8, 0, (g.Stage % 2 == 0 ? 0.3 : 0.7));
               env.play(triOsc, attackTime, sustainTime, sustainLevel, releaseTime);
+          
             }
             else {
               if(g.Stage == 3){
@@ -116,7 +130,8 @@ void draw() {
 
 
 void mouseClicked() {
-  GraphObject gObj = new GraphObject(mouseX, mouseY, "54,55,57,59");
+  println(soundBank[(int)random(0, soundBank.length)]);
+  GraphObject gObj = new GraphObject(mouseX, mouseY, soundBank[(int)random(0, soundBank.length)]);
   gObjects.add(gObj);
   println("item count is now " + gObjects.size());
 }
